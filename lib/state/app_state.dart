@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/user_model.dart';
 import '../models/mock_data.dart';
 import '../models/loan_model.dart';
+import '../models/ai_credit_insight.dart';
 
 class AppState extends ChangeNotifier {
   int _currentNavIndex = 0;
@@ -67,6 +68,9 @@ class AppState extends ChangeNotifier {
   KycData get kycData => _kycData;
   bool get isBalanceVisible => _isBalanceVisible;
   List<Loan> get loans => List.unmodifiable(_loans);
+
+  AiCreditInsight? _aiCreditInsight;
+  AiCreditInsight? get aiCreditInsight => _aiCreditInsight;
 
   void setNavIndex(int index) {
     _currentNavIndex = index;
@@ -142,6 +146,11 @@ class AppState extends ChangeNotifier {
 
   void resetKyc() {
     _kycData = const KycData();
+    notifyListeners();
+  }
+
+  void setAiCreditInsight(AiCreditInsight insight) {
+    _aiCreditInsight = insight;
     notifyListeners();
   }
 

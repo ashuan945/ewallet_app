@@ -271,7 +271,7 @@ class HomeScreen extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   children: [
                     _ServiceCard(
-                      title: 'Micro Loan',
+                      title: 'Spark Loan',
                       subtitle: 'Up to RM 3.5K',
                       imageAsset: 'assets/icons/microloan.png',
                       color: AppTheme.accentOrange,

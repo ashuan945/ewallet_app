@@ -10,7 +10,7 @@ class ServicesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final services = [
       (
-        title: 'Micro Loan',
+        title: 'Spark Loan',
         subtitle: 'Up to RM 3.5K',
         imageAsset: 'assets/icons/microloan.png',
         icon: null,
@@ -77,7 +77,7 @@ class ServicesScreen extends StatelessWidget {
                   imageAsset: service.imageAsset,
                   color: service.color,
                   onTap: () {
-                    if (service.title == 'Micro Loan') {
+                    if (service.title == 'Spark Loan') {
                       Navigator.push(
                         context,
                         MaterialPageRoute(

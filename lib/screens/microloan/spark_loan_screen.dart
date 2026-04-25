@@ -60,14 +60,14 @@ class _SparkLoanScreenState extends State<SparkLoanScreen>
     if (score >= 697) return 3500;
     if (score >= 651) return 2500;
     if (score >= 529) return 1000;
-    return 0;
+    return 500;
   }
 
   static double _monthlyRate(int score) {
     if (score >= 697) return 0.01;
     if (score >= 651) return 0.0125;
     if (score >= 529) return 0.015;
-    return 0;
+    return 0.02;
   }
 
   static int _recommendedTenure(double amount) {
@@ -92,13 +92,10 @@ class _SparkLoanScreenState extends State<SparkLoanScreen>
 
   @override
   Widget build(BuildContext context) {
-    final score = context.watch<AppState>().user.creditScore;
+    final appState = context.watch<AppState>();
+    final apiScore = appState.aiCreditInsight?.creditScore.round();
+    final score = apiScore ?? appState.user.creditScore;
     final maxLoan = _maxLoan(score);
-    final isEligible = maxLoan > 0;
-
-    if (!isEligible) {
-      return _buildIneligibleScreen(context, score);
-    }
 
     if (_selectedAmount > maxLoan) {
       _selectedAmount = maxLoan;
@@ -464,7 +461,9 @@ class _SparkLoanScreenState extends State<SparkLoanScreen>
             value: _selectedAmount,
             min: _minLoan,
             max: maxLoan,
-            divisions: ((maxLoan - _minLoan) / 100).round(),
+            divisions: maxLoan > _minLoan
+                ? ((maxLoan - _minLoan) / 100).round()
+                : null,
             onChanged: (value) {
               setState(() {
                 _selectedAmount = (value / 100).round() * 100;
@@ -715,61 +714,4 @@ class _SparkLoanScreenState extends State<SparkLoanScreen>
     );
   }
 
-  Widget _buildIneligibleScreen(BuildContext context, int score) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Spark Loan')),
-      body: Padding(
-        padding: AppResponsive.padding(context),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Spacer(),
-            Container(
-              width: 80,
-              height: 80,
-              decoration: BoxDecoration(
-                color: AppTheme.accentRed.withOpacity(0.1),
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(
-                Icons.lock_outline,
-                color: AppTheme.accentRed,
-                size: 36,
-              ),
-            ),
-            const SizedBox(height: 24),
-            Text(
-              'Not Yet Eligible',
-              style: TextStyle(
-                fontSize: AppResponsive.sp(context, 22),
-                fontWeight: FontWeight.bold,
-                color: AppTheme.textPrimary,
-              ),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              'Your credit score of $score is currently below the minimum requirement. Improve your score to unlock Spark Loan offers.',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: AppResponsive.sp(context, 14),
-                color: AppTheme.textSecondary,
-                height: 1.5,
-              ),
-            ),
-            const SizedBox(height: 32),
-            SizedBox(
-              width: double.infinity,
-              child: OutlinedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('Back'),
-              ),
-            ),
-            const Spacer(),
-          ],
-        ),
-      ),
-    );
-  }
 }

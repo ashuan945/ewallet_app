@@ -3,11 +3,11 @@ import 'user_model.dart';
 class MockData {
   static const User currentUser = User(
     name: 'Ang Su Huan',
-    email: 'ahmad.abdullah@email.com',
+    email: 'ashuan@email.com',
     phone: '+60 12-345 6789',
     balance: 2450.80,
     kycStatus: KycStatus.notVerified,
-    creditScore: 785,
+    creditScore: 442,
   );
 
   static final List<Map<String, dynamic>> recentScans = [
@@ -43,7 +43,7 @@ class MockData {
       'color': 0xFF00c853,
     },
     {
-      'title': 'Micro Loan',
+      'title': 'Spark Loan',
       'subtitle': 'Quick cash up to RM 10,000',
       'icon': 'money',
       'color': 0xFFff9800,
