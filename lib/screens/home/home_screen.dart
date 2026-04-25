@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/app_theme.dart';
+import '../../core/app_responsive.dart';
 import '../../state/app_state.dart';
 import '../../widgets/balance_card.dart';
 import '../../widgets/quick_action_button.dart';
+import '../microloan/spark_loan_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -81,6 +83,173 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 28),
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.04),
+                      blurRadius: 12,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Credit Score',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: AppTheme.textPrimary,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: 6,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(3),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 25,
+                                        child: Container(
+                                          color: const Color(0xFFe53935),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 25,
+                                        child: Container(
+                                          color: const Color(0xFFff9800),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 25,
+                                        child: Container(
+                                          color: const Color(0xFF00bfa5),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 25,
+                                        child: Container(
+                                          color: AppTheme.accentGreen,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              SizedBox(
+                                height: 8,
+                                child: LayoutBuilder(
+                                  builder: (context, constraints) {
+                                    final clampedScore = user.creditScore.clamp(
+                                      300,
+                                      850,
+                                    );
+                                    final progress = (clampedScore - 300) / 550;
+                                    return Stack(
+                                      clipBehavior: Clip.none,
+                                      children: [
+                                        Positioned(
+                                          left:
+                                              (constraints.maxWidth *
+                                                  progress) -
+                                              4,
+                                          top: -10,
+                                          child: Container(
+                                            width: 8,
+                                            height: 8,
+                                            decoration: const BoxDecoration(
+                                              color: AppTheme.primaryBlue,
+                                              shape: BoxShape.circle,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black26,
+                                                  blurRadius: 2,
+                                                  offset: Offset(0, 1),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              '${user.creditScore}',
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: AppTheme.textPrimary,
+                              ),
+                            ),
+                            Text(
+                              _riskLabel(user.creditScore),
+                              style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w600,
+                                color: _riskColor(user.creditScore),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    const Text(
+                      'Your credit score reflects your financial health and payment behavior. A higher score unlocks better loan rates and exclusive rewards.',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: AppTheme.textSecondary,
+                        height: 1.4,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton(
+                        onPressed: () {
+                          context.read<AppState>().setNavIndex(1);
+                        },
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: AppTheme.primaryBlue,
+                          side: const BorderSide(color: AppTheme.primaryBlue),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                        ),
+                        child: const Text(
+                          'More Details',
+                          style: TextStyle(fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 24),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -97,100 +266,65 @@ class HomeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               SizedBox(
-                height: 120,
+                height: AppResponsive.h(context, 130),
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: [
                     _ServiceCard(
-                      title: 'Micro Savings',
-                      subtitle: 'Save & earn',
-                      icon: Icons.savings_outlined,
-                      color: AppTheme.accentGreen,
-                      onTap: () => _showSnack(context, 'Micro Savings'),
-                    ),
-                    const SizedBox(width: 12),
-                    _ServiceCard(
                       title: 'Micro Loan',
-                      subtitle: 'Up to RM 10K',
-                      icon: Icons.money_outlined,
+                      subtitle: 'Up to RM 3.5K',
+                      imageAsset: 'assets/icons/microloan.png',
                       color: AppTheme.accentOrange,
-                      onTap: () => _showSnack(context, 'Micro Loan'),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const SparkLoanScreen(),
+                          ),
+                        );
+                      },
                     ),
                     const SizedBox(width: 12),
                     _ServiceCard(
-                      title: 'Business Loan',
+                      title: 'Biz Cash',
                       subtitle: 'Grow business',
                       icon: Icons.business_center_outlined,
                       color: AppTheme.primaryBlue,
-                      onTap: () => _showSnack(context, 'Business Loan'),
+                      onTap: () => _showSnack(context, 'Biz Cash'),
+                    ),
+                    const SizedBox(width: 12),
+                    _ServiceCard(
+                      title: 'Pay Bills',
+                      subtitle: 'Utilities & more',
+                      icon: Icons.receipt_long_outlined,
+                      color: const Color(0xFFe53935),
+                      onTap: () => _showSnack(context, 'Pay Bills'),
+                    ),
+                    const SizedBox(width: 12),
+                    _ServiceCard(
+                      title: 'Prepaid Top-up',
+                      subtitle: 'Reload anytime',
+                      icon: Icons.phone_android_outlined,
+                      color: const Color(0xFF7c4dff),
+                      onTap: () => _showSnack(context, 'Prepaid Top-up'),
+                    ),
+                    const SizedBox(width: 12),
+                    _ServiceCard(
+                      title: 'Parking',
+                      subtitle: 'Pay & go',
+                      icon: Icons.local_parking_outlined,
+                      color: const Color(0xFF00bfa5),
+                      onTap: () => _showSnack(context, 'Parking'),
+                    ),
+                    const SizedBox(width: 12),
+                    _ServiceCard(
+                      title: 'Toll / RFID',
+                      subtitle: 'Touchless toll',
+                      icon: Icons.sensors_outlined,
+                      color: const Color(0xFF0047ba),
+                      onTap: () => _showSnack(context, 'Toll / RFID'),
                     ),
                   ],
-                ),
-              ),
-              const SizedBox(height: 24),
-              GestureDetector(
-                onTap: () {
-                  context.read<AppState>().setNavIndex(1);
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.04),
-                        blurRadius: 12,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 48,
-                        height: 48,
-                        decoration: BoxDecoration(
-                          color: AppTheme.accentGreen.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: const Icon(
-                          Icons.score,
-                          color: AppTheme.accentGreen,
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Credit Score',
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                color: AppTheme.textPrimary,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              '${user.creditScore} - Low Risk',
-                              style: const TextStyle(
-                                fontSize: 13,
-                                color: AppTheme.accentGreen,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        size: 16,
-                        color: AppTheme.textSecondary,
-                      ),
-                    ],
-                  ),
                 ),
               ),
             ],
@@ -198,6 +332,20 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  static String _riskLabel(int score) {
+    if (score >= 697) return 'Good';
+    if (score >= 651) return 'Fair';
+    if (score >= 529) return 'Low';
+    return 'Poor';
+  }
+
+  static Color _riskColor(int score) {
+    if (score >= 697) return AppTheme.accentGreen;
+    if (score >= 651) return const Color(0xFFffc107);
+    if (score >= 529) return const Color(0xFFff9800);
+    return const Color(0xFFe53935);
   }
 
   void _showSnack(BuildContext context, String message) {
@@ -210,14 +358,16 @@ class HomeScreen extends StatelessWidget {
 class _ServiceCard extends StatelessWidget {
   final String title;
   final String subtitle;
-  final IconData icon;
+  final IconData? icon;
+  final String? imageAsset;
   final Color color;
   final VoidCallback onTap;
 
   const _ServiceCard({
     required this.title,
     required this.subtitle,
-    required this.icon,
+    this.icon,
+    this.imageAsset,
     required this.color,
     required this.onTap,
   });
@@ -227,8 +377,8 @@ class _ServiceCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 150,
-        padding: const EdgeInsets.all(16),
+        width: AppResponsive.w(context, 150),
+        padding: EdgeInsets.all(AppResponsive.w(context, 16)),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
@@ -244,28 +394,38 @@ class _ServiceCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              width: 40,
-              height: 40,
+              width: AppResponsive.w(context, 40),
+              height: AppResponsive.w(context, 40),
               decoration: BoxDecoration(
                 color: color.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Icon(icon, color: color, size: 22),
+              child: imageAsset != null
+                  ? Image.asset(
+                      imageAsset!,
+                      width: AppResponsive.w(context, 22),
+                      height: AppResponsive.w(context, 22),
+                    )
+                  : Icon(
+                      icon!,
+                      color: color,
+                      size: AppResponsive.w(context, 22),
+                    ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 10),
             Text(
               title,
-              style: const TextStyle(
-                fontSize: 14,
+              style: TextStyle(
+                fontSize: AppResponsive.sp(context, 14),
                 fontWeight: FontWeight.w600,
                 color: AppTheme.textPrimary,
               ),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: 3),
             Text(
               subtitle,
-              style: const TextStyle(
-                fontSize: 12,
+              style: TextStyle(
+                fontSize: AppResponsive.sp(context, 12),
                 color: AppTheme.textSecondary,
               ),
             ),

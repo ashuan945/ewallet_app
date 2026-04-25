@@ -2,22 +2,12 @@ import 'user_model.dart';
 
 class MockData {
   static const User currentUser = User(
-    name: 'Ahmad Bin Abdullah',
+    name: 'Ang Su Huan',
     email: 'ahmad.abdullah@email.com',
     phone: '+60 12-345 6789',
     balance: 2450.80,
     kycStatus: KycStatus.notVerified,
-    creditScore: 742,
-  );
-
-  static const KycData mockOcrData = KycData(
-    nationality: Nationality.malaysian,
-    idNumber: '880101-01-1234',
-    fullName: 'Ahmad Bin Abdullah',
-    dateOfBirth: '01 Jan 1988',
-    address: '123 Jalan Bukit Bintang, 55100 Kuala Lumpur',
-    occupation: 'Employed',
-    businessType: 'Private Limited (Sdn Bhd)',
+    creditScore: 785,
   );
 
   static final List<Map<String, dynamic>> recentScans = [

@@ -16,7 +16,7 @@ class KycStepIndicator extends StatelessWidget {
           return Expanded(
             child: Container(
               height: 2,
-              color: stepIndex < currentStep
+              color: stepIndex < currentStep && currentStep >= 0
                   ? AppTheme.primaryBlue
                   : AppTheme.borderLight,
             ),
@@ -24,8 +24,8 @@ class KycStepIndicator extends StatelessWidget {
         }
 
         final stepIndex = index ~/ 2;
-        final isCompleted = stepIndex < currentStep;
-        final isCurrent = stepIndex == currentStep;
+        final isCompleted = stepIndex < currentStep && currentStep >= 0;
+        final isCurrent = stepIndex == currentStep && currentStep >= 0;
 
         return Column(
           mainAxisSize: MainAxisSize.min,

@@ -48,8 +48,8 @@ class KycData {
   final Nationality? nationality;
   final String? idNumber;
   final String? fullName;
-  final String? dateOfBirth;
-  final String? address;
+  final DateTime? dateOfBirth;
+  final DateTime? dateOfExpiry; // Passport only
   final String? occupation;
   final String? businessType;
   final Uint8List? frontDocument;
@@ -57,45 +57,69 @@ class KycData {
   final Uint8List? passportDocument;
   final Uint8List? selfie;
 
+  // S3 file keys (stored after upload)
+  final String? icFrontKey;
+  final String? icBackKey;
+  final String? passportKey;
+  final String? selfieKey;
+
+  // Extracted data from OCR
+  final String? extractedCountry;
+
   const KycData({
     this.nationality,
     this.idNumber,
     this.fullName,
     this.dateOfBirth,
-    this.address,
+    this.dateOfExpiry,
     this.occupation,
     this.businessType,
     this.frontDocument,
     this.backDocument,
     this.passportDocument,
     this.selfie,
+    this.icFrontKey,
+    this.icBackKey,
+    this.passportKey,
+    this.selfieKey,
+    this.extractedCountry,
   });
 
   KycData copyWith({
     Nationality? nationality,
     String? idNumber,
     String? fullName,
-    String? dateOfBirth,
-    String? address,
+    DateTime? dateOfBirth,
+    DateTime? dateOfExpiry,
     String? occupation,
     String? businessType,
     Uint8List? frontDocument,
     Uint8List? backDocument,
     Uint8List? passportDocument,
     Uint8List? selfie,
+    String? icFrontKey,
+    String? icBackKey,
+    String? passportKey,
+    String? selfieKey,
+    String? extractedCountry,
   }) {
     return KycData(
       nationality: nationality ?? this.nationality,
       idNumber: idNumber ?? this.idNumber,
       fullName: fullName ?? this.fullName,
       dateOfBirth: dateOfBirth ?? this.dateOfBirth,
-      address: address ?? this.address,
+      dateOfExpiry: dateOfExpiry ?? this.dateOfExpiry,
       occupation: occupation ?? this.occupation,
       businessType: businessType ?? this.businessType,
       frontDocument: frontDocument ?? this.frontDocument,
       backDocument: backDocument ?? this.backDocument,
       passportDocument: passportDocument ?? this.passportDocument,
       selfie: selfie ?? this.selfie,
+      icFrontKey: icFrontKey ?? this.icFrontKey,
+      icBackKey: icBackKey ?? this.icBackKey,
+      passportKey: passportKey ?? this.passportKey,
+      selfieKey: selfieKey ?? this.selfieKey,
+      extractedCountry: extractedCountry ?? this.extractedCountry,
     );
   }
 }

@@ -63,45 +63,72 @@ class _ScanToPayScreenState extends State<ScanToPayScreen> {
               ),
             ),
             const SizedBox(height: 40),
-            SizedBox(
-              width: 260,
-              height: 260,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Container(
-                    width: 240,
-                    height: 240,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.white.withOpacity(0.3),
-                        width: 1,
+            LayoutBuilder(
+              builder: (context, constraints) {
+                final frameSize = (constraints.maxWidth * 0.65).clamp(
+                  200.0,
+                  280.0,
+                );
+                final innerSize = frameSize * 0.75;
+                final cornerOffset = frameSize * 0.12;
+                final cornerLength = frameSize * 0.09;
+                return SizedBox(
+                  width: frameSize,
+                  height: frameSize,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Container(
+                        width: frameSize - 20,
+                        height: frameSize - 20,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.white.withOpacity(0.3),
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
                       ),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                  _buildCorner(top: 30, left: 30),
-                  _buildCorner(top: 30, right: 30),
-                  _buildCorner(bottom: 30, left: 30),
-                  _buildCorner(bottom: 30, right: 30),
-                  Container(
-                    width: 180,
-                    height: 180,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: AppTheme.primaryBlue.withOpacity(0.6),
-                        width: 2,
+                      _buildCorner(
+                        top: cornerOffset,
+                        left: cornerOffset,
+                        length: cornerLength,
                       ),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
+                      _buildCorner(
+                        top: cornerOffset,
+                        right: cornerOffset,
+                        length: cornerLength,
+                      ),
+                      _buildCorner(
+                        bottom: cornerOffset,
+                        left: cornerOffset,
+                        length: cornerLength,
+                      ),
+                      _buildCorner(
+                        bottom: cornerOffset,
+                        right: cornerOffset,
+                        length: cornerLength,
+                      ),
+                      Container(
+                        width: innerSize,
+                        height: innerSize,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: AppTheme.primaryBlue.withOpacity(0.6),
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      Container(
+                        width: innerSize,
+                        height: 2,
+                        color: AppTheme.primaryBlue.withOpacity(0.8),
+                      ),
+                    ],
                   ),
-                  Container(
-                    width: 180,
-                    height: 2,
-                    color: AppTheme.primaryBlue.withOpacity(0.8),
-                  ),
-                ],
-              ),
+                );
+              },
             ),
             const SizedBox(height: 40),
             Padding(
@@ -248,6 +275,7 @@ class _ScanToPayScreenState extends State<ScanToPayScreen> {
     double? bottom,
     double? left,
     double? right,
+    double length = 24,
   }) {
     return Positioned(
       top: top,
@@ -255,8 +283,8 @@ class _ScanToPayScreenState extends State<ScanToPayScreen> {
       left: left,
       right: right,
       child: Container(
-        width: 24,
-        height: 24,
+        width: length,
+        height: length,
         decoration: BoxDecoration(
           border: Border(
             top: top != null

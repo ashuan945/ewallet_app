@@ -7,6 +7,7 @@ class StyledTextField extends StatelessWidget {
   final TextEditingController? controller;
   final String? initialValue;
   final bool readOnly;
+  final bool enabled;
   final VoidCallback? onTap;
   final ValueChanged<String>? onChanged;
   final Widget? suffix;
@@ -20,6 +21,7 @@ class StyledTextField extends StatelessWidget {
     this.controller,
     this.initialValue,
     this.readOnly = false,
+    this.enabled = true,
     this.onTap,
     this.onChanged,
     this.suffix,
@@ -45,6 +47,7 @@ class StyledTextField extends StatelessWidget {
           controller: controller,
           initialValue: controller == null ? initialValue : null,
           readOnly: readOnly,
+          enabled: enabled,
           onTap: onTap,
           onChanged: onChanged,
           maxLines: maxLines,

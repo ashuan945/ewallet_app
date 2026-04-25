@@ -1,11 +1,11 @@
 {
-    "name": "ewallet_app",
-    "short_name": "ewallet_app",
+    "name": "TrustScore",
+    "short_name": "TrustScore",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "TrustScore - A secure e-wallet application.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

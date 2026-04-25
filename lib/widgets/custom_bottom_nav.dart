@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../core/app_theme.dart';
+import '../core/app_responsive.dart';
 import '../core/constants.dart';
 
 class CustomBottomNav extends StatelessWidget {
@@ -43,13 +44,13 @@ class CustomBottomNav extends StatelessWidget {
                       color: isSelected
                           ? AppTheme.primaryBlue
                           : AppTheme.textSecondary,
-                      size: isSelected ? 26 : 24,
+                      size: AppResponsive.w(context, isSelected ? 26 : 24),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       AppConstants.bottomNavLabels[index],
                       style: TextStyle(
-                        fontSize: 11,
+                        fontSize: AppResponsive.sp(context, 11),
                         fontWeight: isSelected
                             ? FontWeight.w600
                             : FontWeight.normal,

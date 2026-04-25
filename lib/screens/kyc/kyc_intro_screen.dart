@@ -28,12 +28,12 @@ class _KycIntroScreenState extends State<KycIntroScreen> {
         ),
       ),
       body: SafeArea(
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const KycStepIndicator(currentStep: 0),
+              const KycStepIndicator(currentStep: -1),
               const SizedBox(height: 32),
               Center(
                 child: Container(
@@ -126,7 +126,7 @@ class _KycIntroScreenState extends State<KycIntroScreen> {
                   ),
                 ],
               ),
-              const Spacer(),
+              const SizedBox(height: 32),
               CustomButton(
                 text: 'Verify Account',
                 onPressed: _selectedNationality != null

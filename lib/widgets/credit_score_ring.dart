@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import '../core/app_theme.dart';
+import '../core/app_responsive.dart';
 
 class CreditScoreRing extends StatelessWidget {
   final int score;
@@ -11,15 +12,16 @@ class CreditScoreRing extends StatelessWidget {
   Widget build(BuildContext context) {
     final clampedScore = score.clamp(300, 850);
     final progress = (clampedScore - 300) / 550;
+    final ringSize = AppResponsive.w(context, 220);
 
     return SizedBox(
-      width: 220,
-      height: 220,
+      width: ringSize,
+      height: ringSize,
       child: Stack(
         alignment: Alignment.center,
         children: [
           CustomPaint(
-            size: const Size(220, 220),
+            size: Size(ringSize, ringSize),
             painter: _ScoreRingPainter(progress: progress),
           ),
           Column(
@@ -27,16 +29,19 @@ class CreditScoreRing extends StatelessWidget {
             children: [
               Text(
                 '$clampedScore',
-                style: const TextStyle(
-                  fontSize: 48,
+                style: TextStyle(
+                  fontSize: AppResponsive.sp(context, 48),
                   fontWeight: FontWeight.bold,
                   color: AppTheme.textPrimary,
                 ),
               ),
               const SizedBox(height: 4),
-              const Text(
+              Text(
                 'out of 850',
-                style: TextStyle(fontSize: 14, color: AppTheme.textSecondary),
+                style: TextStyle(
+                  fontSize: AppResponsive.sp(context, 14),
+                  color: AppTheme.textSecondary,
+                ),
               ),
               const SizedBox(height: 8),
               Container(
@@ -51,7 +56,7 @@ class CreditScoreRing extends StatelessWidget {
                 child: Text(
                   _riskLabel,
                   style: TextStyle(
-                    fontSize: 13,
+                    fontSize: AppResponsive.sp(context, 13),
                     fontWeight: FontWeight.w600,
                     color: _riskColor,
                   ),
@@ -65,17 +70,17 @@ class CreditScoreRing extends StatelessWidget {
   }
 
   String get _riskLabel {
-    if (score >= 740) return 'Low Risk';
-    if (score >= 670) return 'Medium Risk';
-    if (score >= 580) return 'High Risk';
-    return 'Very High Risk';
+    if (score >= 697) return 'Good';
+    if (score >= 651) return 'Fair';
+    if (score >= 529) return 'Low';
+    return 'Poor';
   }
 
   Color get _riskColor {
-    if (score >= 740) return AppTheme.accentGreen;
-    if (score >= 670) return AppTheme.accentTeal;
-    if (score >= 580) return AppTheme.accentOrange;
-    return AppTheme.accentRed;
+    if (score >= 697) return AppTheme.accentGreen;
+    if (score >= 651) return const Color(0xFFffc107);
+    if (score >= 529) return const Color(0xFFff9800);
+    return const Color(0xFFe53935);
   }
 }
 

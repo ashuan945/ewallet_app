@@ -10,12 +10,7 @@ class AppConstants {
     'Profile',
   ];
 
-  static const List<String> kycSteps = [
-    'Upload',
-    'Selfie',
-    'Details',
-    'Submit',
-  ];
+  static const List<String> kycSteps = ['Upload', 'Selfie', 'Details'];
 
   static const List<String> occupations = [
     'Employed',

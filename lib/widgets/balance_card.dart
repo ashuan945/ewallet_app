@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../core/app_theme.dart';
+import '../core/app_responsive.dart';
 import '../state/app_state.dart';
 
 class BalanceCard extends StatelessWidget {
@@ -16,14 +17,14 @@ class BalanceCard extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(AppResponsive.w(context, 20)),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           colors: [AppTheme.primaryBlue, Color(0xFF005ce6)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(AppResponsive.r(context, 20)),
         boxShadow: [
           BoxShadow(
             color: AppTheme.primaryBlue.withOpacity(0.3),
@@ -38,39 +39,48 @@ class BalanceCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
+              Text(
                 'Wallet Balance',
-                style: TextStyle(color: Colors.white70, fontSize: 14),
+                style: TextStyle(
+                  color: Colors.white70,
+                  fontSize: AppResponsive.sp(context, 14),
+                ),
               ),
               GestureDetector(
                 onTap: appState.toggleBalanceVisibility,
                 child: Icon(
                   isVisible ? Icons.visibility : Icons.visibility_off,
                   color: Colors.white70,
-                  size: 20,
+                  size: AppResponsive.w(context, 20),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: AppResponsive.h(context, 12)),
           Text(
             isVisible ? formatter.format(balance) : 'RM ****',
-            style: const TextStyle(
+            style: TextStyle(
               color: Colors.white,
-              fontSize: 32,
+              fontSize: AppResponsive.sp(context, 32),
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: AppResponsive.h(context, 16)),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            padding: EdgeInsets.symmetric(
+              horizontal: AppResponsive.w(context, 12),
+              vertical: AppResponsive.h(context, 6),
+            ),
             decoration: BoxDecoration(
               color: Colors.white.withOpacity(0.15),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(AppResponsive.r(context, 8)),
             ),
-            child: const Text(
+            child: Text(
               'Account: **** 8821',
-              style: TextStyle(color: Colors.white70, fontSize: 12),
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: AppResponsive.sp(context, 12),
+              ),
             ),
           ),
         ],

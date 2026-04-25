@@ -5,14 +5,14 @@ import '../core/app_theme.dart';
 class DocumentUploadBox extends StatelessWidget {
   final String label;
   final Uint8List? imageBytes;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final VoidCallback? onRemove;
 
   const DocumentUploadBox({
     super.key,
     required this.label,
     this.imageBytes,
-    required this.onTap,
+    this.onTap,
     this.onRemove,
   });
 
