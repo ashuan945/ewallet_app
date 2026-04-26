@@ -137,7 +137,7 @@ flutter build apk --release
 ## Key User Flows
 
 ### eKYC Identity Verification
-1. User navigates to **Profile → Complete KYC**
+1. User navigates to **Profile → Account Verification**
 2. Selects document type (IC or Passport) and uploads images
 3. Takes a live selfie for face comparison
 4. System auto-extracts name, ID number, DOB, and nationality via OCR
